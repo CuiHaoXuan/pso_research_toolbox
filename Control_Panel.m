@@ -135,14 +135,14 @@ OnOff_NormR_stag_det = logical(0); %Option to use Van den Bergh's
     % cause of stagnation in the sense that no better function values can
     % be achieved by which to improve the global best when no other region
     % of the search space is being explored."
-OnOff_func_evals = logical(0); %Function evaluations rather than iterations
+OnOff_func_evals = logical(1); %Function evaluations rather than iterations
     %are used when this switch is active and vice versa when it is
     %inactive.  Function evaluations allow for more straightforward
     %comparisons across a wide range_IS of algorithms.
     %$%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %REGPSO & PSO SUCCESS MEASURES%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-OnOff_SuccessfulUnsuccessful = logical(1); %When switch 
+OnOff_SuccessfulUnsuccessful = logical(0); %When switch 
     %"OnOff_SuccessfulUnsuccessful" is activated,
     %each trial will be classified as successful or unsuccessful.  In some
     %cases, users may only be interested in the statistics resulting from
@@ -167,10 +167,10 @@ end
 OnOff_lbest = logical(1); %Activates Lbest PSO instead of Gbest PSO as the
     %core algorithm.
 if OnOff_lbest
-    lbest_neighb_size = 2;
+    lbest_neighb_size = 10;
 end
 OnOff_w_linear = logical(1); %Turn time-varying inertia weight on or off.
-OnOff_v_clamp = logical(1); %Turn velocity clamping on or off.
+OnOff_v_clamp = logical(0); %Turn velocity clamping on or off.
 OnOff_v_reset = logical(0); %With this feature activated, if any dimension
     %of a particle leaves the search space, its corresponding velocity
     %component will be set to zero and its position recalculated.
@@ -235,7 +235,7 @@ OnOff_user_input_validation_required = logical(1);
     %verify that certain displayed settings are correct before data is
     %generated.
 OnOff_progress_meter = logical(1); %Turns progress meter on or off.
-OnOff_asymmetric_initialization = logical(0);
+OnOff_asymmetric_initialization = logical(1);
     %This switch activates asymmetric initialization, which modifies the
     %initialization space by setting xmin = xmax/2 on benchmarks instead of
     %xmin = -xmax.  The idea is to increase the difficulty of locating the
@@ -274,7 +274,7 @@ OnOff_v_soc_hist = logical(0); %Maintain a history of the social velocity
 if OnOff_Tricias_NN_training
     num_trials = 1; %For NN training, this should always be set to 1
 else % i.e. if ~OnOff_Tricias_NN_training
-    num_trials = 1; %Specify the # of trials per column here if ANN training is not in use.
+    num_trials = 25; %Specify the # of trials per column here if ANN training is not in use.
 end
 vmax_perc = .5; %Set the percentage of the range to which each dimension
     %should be clamped.  50% is traditional as it sets vmax = xmax for 
@@ -290,7 +290,7 @@ if OnOff_Tricias_NN_training
 else % i.e.  if ~OnOff_Tricias_NN_training
     dim = 2; %Specify the number of dimensions characterizing the search space.
 end
-np = 5; %Set the number of particles.
+np = 40; %Set the number of particles.
 c1 = 1.49618; %Set the acceleration constants.
 c2 = 1.49618;
 if OnOff_w_linear %i.e. if inertia weight is time-varying
@@ -300,7 +300,7 @@ else %i.e. if a static inertia weight is desired
     w = 0.72984;
 end
 if OnOff_func_evals
-    max_FEs_per_grouping = 200; %Set the maximum # of function evaluations
+    max_FEs_per_grouping = 1e5; %Set the maximum # of function evaluations
 			%to be allowed per grouping.
 		%To conduct 2000 iterations, for example, one could set this to
             %np*2000.
@@ -430,13 +430,13 @@ if OnOff_graphs %When this switch is inactive, the switches below will not clutt
         %initial to final: only executed for now when dim = 2)
     OnOff_graph_ObjFun_f_vs_2D = logical(1); %3D plot of the function value at each 2D location
     %TWO-D & SINGLE TRIAL CASE ONLY
-    OnOff_phase_plot = logical(1); %Phase Plot per Particle (only executed for now when dim = 2)
+    OnOff_phase_plot = logical(0); %Phase Plot per Particle (only executed for now when dim = 2)
     %SINGLE TRIAL ONLY (i.e. These settings only take effect if "num_trials == 1")
     OnOff_graph_fg = logical(0); %Graph objective function's value for each iteration number's global best
     OnOff_graph_g = logical(0); %Graph History of the Global Best
     OnOff_graph_p = logical(0); %Graph History of Personal Best per Particle
     OnOff_graph_f = logical(0); %Graph History of Obj. Function Value by Particle
-    OnOff_graph_x = logical(1); %Graph History of Decision Variables per Particle
+    OnOff_graph_x = logical(0); %Graph History of Decision Variables per Particle
     OnOff_graph_v = logical(0); %Graph Velocity History per Particle
     %$%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %REGPSO & PSO GRAPHING SETTINGS%
@@ -565,7 +565,7 @@ if OnOff_Tricias_NN_training
     true_global_minimum = net.trainParam.goal; %This set to the NN training goal.
 else %if ~OnOff_Tricias_NN_training
     
-    objective_id = 1;
+    objective_id = 8;
     %If you will use only one objective, set the objective
     %id equal to the objective in "Objectives.m" that you want
     %to use.  If you will be incrementing the objective per table, set
